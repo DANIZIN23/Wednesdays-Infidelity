@@ -30,7 +30,7 @@
 	-->
 	<!--<define name="PRIVATE_BUILD"/> -->
 
-	<define name="VIDEOS_ALLOWED" if="windows" unless="32bits"/>
+	<define name="VIDEOS_ALLOWED" if="android" unless="32bits"/>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
