@@ -179,7 +179,7 @@ class Paths
 
 	static public function video(key:String)
 	{
-		return SUtil.getPath + 'assets/videos/$key.$VIDEO_EXT';
+		return 'assets/videos/$key.$VIDEO_EXT';
 	}
 
     static public function sound(key:String, ?library:String):Dynamic
