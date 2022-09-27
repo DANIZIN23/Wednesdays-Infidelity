@@ -17,6 +17,12 @@ import openfl.display.StageScaleMode;
 import openfl.events.Event;
 import openfl.events.UncaughtErrorEvent;
 import states.menus.*;
+#if android //only android will use those
+import sys.FileSystem;
+import lime.app.Application;
+import lime.system.System;
+import android.*;
+#end
 
 class Main extends Sprite
 {
@@ -29,8 +35,9 @@ class Main extends Sprite
 	var framerate:Int = 60; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
-
-	public static var canToggleFullScreen:Bool = false; // Will be set true in Init to make sure everything is ready
+        #if android
+	public static var path:String = System.applicationStorageDirectory;					
+	#end 
 
 	public static var fullscreenKeys:Array<Null<FlxKey>>;
 
@@ -46,6 +53,8 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+		
+		//SUtil.uncaughtErrorHandler();
 
 		if (stage != null)
 		{
@@ -87,25 +96,7 @@ class Main extends Sprite
 		if (FlxG.keys == null)
 			return;
 
-		if (canToggleFullScreen && fullscreenKeys != null)
-		{
-			var lastPressed:FlxKey = FlxG.keys.firstJustPressed();
-
-			if (!fullscreenKeys.contains(lastPressed))
-				return;
-
-			for (key in fullscreenKeys)
-			{
-				if (key == null || key == FlxKey.NONE)
-					continue;
-
-				if (key == lastPressed)
-				{
-					FlxG.fullscreen = !FlxG.fullscreen;
-					break;
-				}
-			}
-		}
+		
 	}
 
 	private function setupGame():Void
@@ -121,6 +112,8 @@ class Main extends Sprite
 			gameWidth = Math.ceil(stageWidth / zoom);
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
+		
+		//SUtil.check();
 
 		#if !debug
 		initialState = WarningState;
@@ -128,7 +121,7 @@ class Main extends Sprite
 
 		addChild(new FlxGame(gameWidth, gameHeight, Init, zoom, framerate, framerate, skipSplash, startFullscreen));
 
-		#if !mobile
+		
 		fpsVar = new FPS(10, 5, 0xFFFFFF);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
@@ -137,7 +130,7 @@ class Main extends Sprite
 		{
 			fpsVar.visible = false;
 		}
-		#end
+		
 
 		#if html5
 		FlxG.autoPause = false;
