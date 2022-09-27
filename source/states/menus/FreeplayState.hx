@@ -256,7 +256,11 @@ class FreeplayState extends MusicBeatState
 		add(daStatic);
 		daStatic.animation.play('static');
 
-		super.create();
+		#if android
+		addVirtualPad(LEFT_FULL, A_B_C);
+		#end	
+		
+			super.create();
 	}
 
 	function genSongs()
