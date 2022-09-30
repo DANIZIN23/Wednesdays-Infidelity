@@ -108,7 +108,7 @@ class CutsceneState extends MusicBeatState // PlayState is alreadly laggy enough
 
 	public function playVideo(videoName:String, ?skippable:Bool = false, ?focus:Bool = true)
 	{
-		#if VIDEOS_ALLOWED
+		#if !android 
 		var foundFile:Bool = false;
 		var fileName:String = Paths.video(videoName);
 
