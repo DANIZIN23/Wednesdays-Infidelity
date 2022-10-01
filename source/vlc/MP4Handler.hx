@@ -120,7 +120,7 @@ class MP4Handler extends VlcBitmap
 		if (FlxG.sound.music != null && pauseMusic)
 			FlxG.sound.music.pause();
 
-		#if sys
+		#if !android 
 		play(checkFile(path));
 
 		this.repeat = repeat ? -1 : 0;
