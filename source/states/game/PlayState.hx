@@ -4,7 +4,7 @@ import data.*;
 import data.ClientPrefs;
 import data.Highscore;
 #if android
-
+import android.Hardware;
 import android.flixel.FlxVirtualPad;
 #end
 import data.Section.SwagSection;
@@ -1233,22 +1233,15 @@ class PlayState extends MusicBeatState
 		botplayTxt.borderSize = 1.25;
 		botplayTxt.visible = cpuControlled;
 		add(botplayTxt);
-		var creditTxt = new FlxText(876, 648, 348);
-	creditTxt.text = "PORTED BY DANIZIN";
-	creditTxt.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, 
-	add(creditTxt)
-	   
-	if (ClientPrefs.downScroll)
-	creditTxt.y = 148;	
-	
+		if (ClientPrefs.downScroll)
+		{
 			botplayTxt.y = timeBarBG.y - 78;
-		
+		}
 
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
-		creditTxt.cameras = [camHUD];
-	healthBar.cameras = [camHUD];
+		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
@@ -4433,8 +4426,9 @@ class PlayState extends MusicBeatState
 		{
 			devil.alpha = 0.0001;
 		}
-		
-	
+		#if android
+	    Hardware.vibrate(250);
+	    #end
 	}
 
 	function jump()
