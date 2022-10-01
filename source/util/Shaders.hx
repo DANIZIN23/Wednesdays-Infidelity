@@ -72,7 +72,7 @@ class DistortionEffect extends Effect
 	public var shader:DistortionShader
 
 	public function new(glitchFactor:Float, otherglitch:Float, ?pushUpdate:Bool = true)
-	
+	{
 		shader = new DistortionShader();
                 shader.iTime.value = [0];
 		shader.glitchModifier.value = [glitchFactor];
