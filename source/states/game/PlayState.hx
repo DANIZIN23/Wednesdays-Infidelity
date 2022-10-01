@@ -1240,9 +1240,9 @@ class PlayState extends MusicBeatState
 	   
 	if (ClientPrefs.downScroll)
 	creditTxt.y = 148;	
-	{
+	
 			botplayTxt.y = timeBarBG.y - 78;
-		}
+		
 
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
