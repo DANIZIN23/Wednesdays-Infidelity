@@ -1236,7 +1236,7 @@ class PlayState extends MusicBeatState
 		var creditTxt = new FlxText(876, 648, 348);
 	creditTxt.text = "PORTED BY DANIZIN";
 	creditTxt.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, 
-	creditTxt.scrollFactor.set();
+	
 	add(creditTxt);		   
 	if (ClientPrefs.downScroll)
 		{
