@@ -1239,14 +1239,16 @@ class PlayState extends MusicBeatState
 	add(creditTxt)
 	   
 	if (ClientPrefs.downScroll)
-		{
+	creditTxt.y = 148;	
+	{
 			botplayTxt.y = timeBarBG.y - 78;
 		}
 
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
-		healthBar.cameras = [camHUD];
+		creditTxt.cameras = [camHUD];
+	healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
