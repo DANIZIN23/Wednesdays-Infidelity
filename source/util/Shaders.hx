@@ -73,7 +73,8 @@ class DistortionEffect extends Effect
 
 	public function new(glitchFactor:Float, otherglitch:Float, ?pushUpdate:Bool = true)
 	
-		shader.iTime.value = [0];
+		shader = new DistortionShader();
+                shader.iTime.value = [0];
 		shader.glitchModifier.value = [glitchFactor];
 		shader.moveScreenFullX.value = [true];
 		shader.moveScreenX.value = [true];
