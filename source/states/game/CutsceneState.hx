@@ -6,7 +6,7 @@ import gameObjects.FlxVideo;
 
 using StringTools;
 
-#if sys
+#if !android 
 import sys.FileSystem;
 #end
 
