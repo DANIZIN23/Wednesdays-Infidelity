@@ -4426,9 +4426,7 @@ class PlayState extends MusicBeatState
 		{
 			devil.alpha = 0.0001;
 		}
-		#if android
-	    Hardware.vibrate(250);
-	    #end
+		
 	}
 
 	function jump()
