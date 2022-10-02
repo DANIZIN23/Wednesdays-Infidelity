@@ -1,11 +1,7 @@
 package;
 
 import sys.FileSystem;
-#if android
-import android.Hardware;
-import android.Permissions;
-import android.os.Environment;
-#end
+
 import flash.system.System;
 import flixel.FlxG;
 import haxe.CallStack.StackItem;
@@ -48,7 +44,7 @@ class Generic {
 				if (!FileSystem.exists(path)) {
 					FileSystem.createDirectory(path);
 				}
-			/*case ANDROIDDATA:
+			case ANDROIDDATA:
 			    path = Environment.getDataDirectory() + '/';*/
 		}
 		if (path != null && path.length > 0) {
