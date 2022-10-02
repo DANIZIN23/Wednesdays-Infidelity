@@ -4,7 +4,7 @@ import data.*;
 import data.ClientPrefs;
 import data.Highscore;
 #if android
-
+import android.Hardware;
 import android.flixel.FlxVirtualPad;
 #end
 import data.Section.SwagSection;
@@ -4426,7 +4426,9 @@ class PlayState extends MusicBeatState
 		{
 			devil.alpha = 0.0001;
 		}
-		
+		#if android
+	    Hardware.vibrate(250);
+	    #end
 	}
 
 	function jump()
