@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Wednesday's Infidelity Android" file="Wednesday's Infidelity" packageName="com.boxfunkin.infidelity" package="com.boxfunkin.infidelity" main="Main" version="PART 2" company="Box Funkin" />
+	<app title="Wednesday's Infidelity" file="Wednesday's Infidelity" packageName="com.boxfunkin.infidelity" package="com.boxfunkin.infidelity" main="Main" version="PART 2" company="Box Funkin" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -14,11 +14,20 @@
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
+	<!--These window settings apply to all targets-->
 	<window width="1280" height="720" fps="" background="#000000" hardware="true" vsync="false" />
 
+	<!--HTML5-specific-->
+	<window if="html5" resizable="true" />
+
+	<!--Desktop-specific-->
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
 
+	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="1280" height="720" resizable="false"/>
+
+	<!--Switch-specific-->
+	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
 
 	<!-- ___________________ WEDNESDAY INFEDATLITLY SETTINGS ____________________ -->
 
@@ -30,9 +39,6 @@
 	<!--<define name="PRIVATE_BUILD"/> -->
 
 	<define name="VIDEOS_ALLOWED" if="windows" unless="32bits"/>
-	
-	<define name="LinuxSystems" if="linux || android" />
-	
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -42,7 +48,9 @@
 
 	<classpath name="source" />
 	
-	<define name="VIDEOS_ALLOWED" if="web || windows || android" unless="32bits"/>
+	<assets path="assets/android" if="android" /> <!-- to not have the android assets in another builds -saw -->
+	
+	<define name="VIDEOS_ALLOWED" if="web || android" unless="32bits"/>
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3"  unless="web"/>
@@ -85,9 +93,9 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="hxp" />
 	<haxelib name="flxanimate" />
-	<haxelib name="discord_rpc" if="desktop"/>
-	<haxelib name="extension-webview/>
-	<haxelib name="extension-androidtools" />
+	<haxelib name="discord_rpc" if="desktop" />
+	<haxelib name="extension-webview"/>
+        <haxelib name="extension-androidtools" if="android" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -96,16 +104,20 @@
 
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
-	
-	<haxedef name="HXCPP_GC_BIG_BLOCKS"/>
-
-    <haxedef name="HXCPP_CHECK_POINTER"/>  <!--makes null references cause errors-->
-    <haxedef name="HXCPP_STACK_LINE" />    <!--if you want line numbers-->
-    <haxedef name="HXCPP_STACK_TRACE"/>    <!--if you want stack traces-->
-
-	<error value="Targets besides desktop are not supported (except android)" unless="desktop || android" />
 
 	<haxedef name="no-deprecation-warnings" />
+	
+	<!--Make's-the-Game-use-less-ram-->
+	<haxedef name="HXCPP_GC_BIG_BLOCKS" />
+
+	<!--Always-enable-Null-Object-Reference-check-->
+	<haxedef name="HXCPP_CHECK_POINTER" if="release" />
+	<haxedef name="HXCPP_STACK_LINE" if="release" />
+
+	<!--Android-Internet-Connection-->
+	<config:android permission="android.permission.ACCESS_NETWORK_STATE" />
+	<config:android permission="android.permission.ACCESS_WIFI_STATE" />
+	<config:android permission="android.permission.INTERNET" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 
