@@ -59,7 +59,7 @@ jobs:
           haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate
           haxelib set flxanimate 1.2.0
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
-          haxelib lib AndroidTools https://github.com/MAJigsaw77/extension-androidtools
+          
           haxelib list
 
       - name: Create Version Tag
