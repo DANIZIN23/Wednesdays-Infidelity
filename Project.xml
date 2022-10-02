@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Wednesday's Infidelity" file="Wednesday's Infidelity" packageName="com.boxfunkin.infidelity" package="com.boxfunkin.infidelity" main="Main" version="PART 2" company="Box Funkin" />
+	<app title="Wednesday's Infidelity Android" file="Wednesday's Infidelity" packageName="com.boxfunkin.infidelity" package="com.boxfunkin.infidelity" main="Main" version="PART 2" company="Box Funkin" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -33,7 +33,6 @@
 	
 	<define name="LinuxSystems" if="linux || android" />
 	
-	<define name="mobileC" if="mobile" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
