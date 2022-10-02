@@ -2,11 +2,10 @@ package states.game;
 
 import data.Progression;
 import flixel.FlxG;
-import gameObjects.FlxVideo;
 
 using StringTools;
 
-#if !android 
+#if sys
 import sys.FileSystem;
 #end
 
@@ -16,7 +15,7 @@ class CutsceneState extends MusicBeatState // PlayState is alreadly laggy enough
 	public var songName:String;
 	public var endingCutscene:Bool = false;
 
-	public var video:FlxVideo;
+	public var video:VideoHandler;
 
 	public function new(songName:String, isEnd:Bool, ?finishCallback:Void->Void)
 	{
@@ -108,9 +107,12 @@ class CutsceneState extends MusicBeatState // PlayState is alreadly laggy enough
 
 	public function playVideo(videoName:String, ?skippable:Bool = false, ?focus:Bool = true)
 	{
-		#if !android 
+		#if VIDEOS_ALLOWED
 		var foundFile:Bool = false;
 		var fileName:String = Paths.video(videoName);
+		
+		trace(fileName);
+		trace('FileSystem.exists(fileName) = ' + FileSystem.exists(fileName));
 
 		if (FileSystem.exists(fileName))
 		{
@@ -119,7 +121,9 @@ class CutsceneState extends MusicBeatState // PlayState is alreadly laggy enough
 
 		if (foundFile)
 		{
-			var video = new FlxVideo(fileName, skippable, focus);
+			var video = new VideoHandler();
+			video.canSkip = skippable;
+			video.playVideo(fileName, false, true, true);
 
 			video.finishCallback = function()
 			{
@@ -141,7 +145,8 @@ class CutsceneState extends MusicBeatState // PlayState is alreadly laggy enough
 	{
 		if (video != null)
 		{
-			video.destroy();
+			video.visible = false;
+			video = null;
 		}
 		if (finishCallback != null)
 			finishCallback();
