@@ -8,10 +8,11 @@ import input.Controls;
 import input.PlayerSettings;
 import song.Conductor.BPMChangeEvent;
 import song.Conductor;
-#if mobileC
+#if android
+import android.flixel.FlxVirtualPad;
 import flixel.FlxCamera;
-import ui.FlxVirtualPad;
 import flixel.input.actions.FlxActionInput;
+import flixel.util.FlxDestroyUtil;
 #end
 
 class MusicBeatSubstate extends FlxSubState
@@ -30,38 +31,59 @@ class MusicBeatSubstate extends FlxSubState
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
-	
-	#if mobileC
-	var _virtualpad:FlxVirtualPad;
+		
+	#if android
+	var virtualPad:FlxVirtualPad;
+	var trackedinputsUI:Array<FlxActionInput> = [];
 
-	var trackedinputs:Array<FlxActionInput> = [];
+	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode)
+	{
+		virtualPad = new FlxVirtualPad(DPad, Action);
+		add(virtualPad);
 
-	// adding virtualpad to state
-	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
-		_virtualpad = new FlxVirtualPad(DPad, Action);
-		_virtualpad.alpha = 0.75;
-		var padsubcam = new FlxCamera();
-		FlxG.cameras.add(padsubcam);
-		padsubcam.bgColor.alpha = 0;
-		_virtualpad.cameras = [padsubcam];
-		add(_virtualpad);
-		controls.setVirtualPad(_virtualpad, DPad, Action);
-		trackedinputs = controls.trackedinputs;
-		controls.trackedinputs = [];
-
-		#if android
-		controls.addAndroidBack();
-		#end
+		controls.setVirtualPadUI(virtualPad, DPad, Action);
+		trackedinputsUI = controls.trackedinputsUI;
+		controls.trackedinputsUI = [];
 	}
-	
-	override function destroy() {
-		controls.removeFlxInput(trackedinputs);
+
+	public function removeVirtualPad()
+	{
+		if (trackedinputsUI != [])
+			controls.removeAControlsInput(trackedinputsUI);
+
+		if (virtualPad != null)
+			remove(virtualPad);
+	}
+
+	public function addPadCamera(DefaultDrawTarget:Bool = true)
+	{
+		if (virtualPad != null)
+		{
+			var camControls:FlxCamera = new FlxCamera();
+			FlxG.cameras.add(camControls, DefaultDrawTarget);
+			camControls.bgColor.alpha = 0;
+			virtualPad.cameras = [camControls];
+		}
+	}
+	#end
+
+	override function destroy()
+	{
+		#if android
+		if (trackedinputsUI != [])
+			controls.removeAControlsInput(trackedinputsUI);
+		#end
 
 		super.destroy();
+
+		#if android
+		if (virtualPad != null)
+		{
+			virtualPad = FlxDestroyUtil.destroy(virtualPad);
+			virtualPad = null;
+		}
+		#end
 	}
-	#else
-	public function addVirtualPad(?DPad, ?Action){};
-	#end
 
 	override function update(elapsed:Float)
 	{
