@@ -71,13 +71,9 @@ class TitleState extends MusicBeatState
 
 	var spiral:SpiralSpin;
 	var spiralbg:FlxSprite;
-	var shit:Bool = false;
 
 	override public function create():Void
 	{
-		#if android
-		FlxG.android.preventDefaultKeys = [BACK];
-		#end
 		// DiscordClient.changePresence("In the Menus", null);
 
 		Main.fpsVar.visible = ClientPrefs.showFPS;
@@ -89,8 +85,6 @@ class TitleState extends MusicBeatState
 		Lib.application.window.title = "Wednesday's Infidelity - Title";
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
-
-		shit = false;
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
@@ -139,7 +133,7 @@ class TitleState extends MusicBeatState
 			addShader(distort);
 			addShader(chrom);
 
-			if (ClientPrefs.shaders && ClientPrefs.intensiveShaders)
+			if (bloom != null)
 				addShader(bloom);
 		}
 
@@ -297,8 +291,26 @@ class TitleState extends MusicBeatState
 
 		if (!transitioning && skippedIntro)
 		{
-			if (pressedEnter && shit)
+			if (pressedEnter)
 			{
+				if (ClientPrefs.flashing)
+				{
+					if (bloom != null)
+					{
+						bloom.setDim(0.1);
+
+						var tween:NumTween = FlxTween.num(0.1, 1.8, 1);
+						tween.onUpdate = function(t:FlxTween)
+						{
+							bloom.setDim(tween.value);
+						}
+					}
+					else
+					{
+						FlxG.camera.flash();
+					}
+				}
+
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				titleText.visible = false;
@@ -306,18 +318,6 @@ class TitleState extends MusicBeatState
 				titleTextxs.visible = false;
 
 				transitioning = true;
-				if (ClientPrefs.flashing && (!ClientPrefs.shaders || !ClientPrefs.intensiveShaders))
-				{
-					FlxG.camera.flash();
-				} else if (ClientPrefs.flashing && ClientPrefs.shaders && ClientPrefs.intensiveShaders) {
-					bloom.setDim(0.1);
-	
-					var tween:NumTween = FlxTween.num(0.1, 1.8, 1);
-					tween.onUpdate = function(t:FlxTween)
-					{
-						bloom.setDim(tween.value);
-					}
-				}
 
 				new FlxTimer().start(1.7, function(tmr:FlxTimer)
 				{
@@ -510,12 +510,7 @@ class TitleState extends MusicBeatState
 			FlxG.camera.zoom = 1.2;
 
 			FlxG.sound.music.time = 15800;
-			FlxTween.tween(FlxG.camera, {zoom: 1}, 1.8, {ease: FlxEase.circOut, onComplete: function(twn:FlxTween) {
-				new FlxTimer().start(1, function(tmr:FlxTimer)
-					{
-				    	shit = true;
-					});
-			}});
+			FlxTween.tween(FlxG.camera, {zoom: 1}, 1.8, {ease: FlxEase.circOut});
 
 			remove(credGroup);
 			skippedIntro = true;

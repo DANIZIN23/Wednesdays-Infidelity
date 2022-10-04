@@ -49,6 +49,10 @@ class WarningState extends MusicBeatState
 
 	override function create()
 	{
+	        #if android
+		FlxG.android.preventDefaultKeys = [BACK];
+		#end
+
 		super.create();
 
 		if (ClientPrefs.doNotShowWarnings)
@@ -127,16 +131,13 @@ class WarningState extends MusicBeatState
 		var option:Option = new Option('Screen Shake', "", 'shake', 'bool', true);
 		addOption(option);
 
-		var option:Option = new Option('Shaders', "", 'shaders', 'bool', true);
-		addOption(option);
 
-		var option:Option = new Option('Intensive Shaders', "Uncheck this if you don't want to run Intensive Shaders!", 'intensiveShaders', 'bool', true);
-		addOption(option);
 
 		genOptions();
 		
-		#if mobileC
+		#if android
         addVirtualPad(UP_DOWN, A_B);
+        addPadCamera();
         #end
 	}
 
@@ -171,7 +172,7 @@ class WarningState extends MusicBeatState
 
 		var text:FlxText = new FlxText(560 + 700, 650, 700, "", 21);
 		text.setFormat("VCR OSD Mono", 30, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		text.applyMarkup("Press $B$ to continue.", [new FlxTextFormatMarkerPair(new FlxTextFormat(FlxColor.YELLOW), "$")]);
+		text.applyMarkup("Press $SPACE$ to continue.", [new FlxTextFormatMarkerPair(new FlxTextFormat(FlxColor.YELLOW), "$")]);
 		text.cameras = [camHUD];
 		add(text);
 
@@ -324,7 +325,7 @@ class WarningState extends MusicBeatState
 			if (controls.UI_DOWN_P)
 				changeSelection(1);
 
-			if (FlxG.keys.justPressed.ENTER || controls.ACCEPT)
+			if (FlxG.keys.justPressed.ENTER || virtualPad.buttonB.justPressed)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				curOption.setValue((curOption.getValue() == true) ? false : true);
@@ -332,7 +333,7 @@ class WarningState extends MusicBeatState
 				reloadCheckboxes();
 			}
 
-			if ((FlxG.keys.justPressed.SPACE || controls.BACK) && canPressSpace)
+			if (FlxG.keys.justPressed.SPACE || virtualPad.buttonA.justPressed && canPressSpace)
 			{
 				canMove = false;
 

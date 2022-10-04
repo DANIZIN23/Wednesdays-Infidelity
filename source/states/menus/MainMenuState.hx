@@ -94,6 +94,9 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+                
+
+
 		keyCombos = [
 			[FlxKey.D, FlxKey.O, FlxKey.O, FlxKey.K] => function()
 			{
@@ -269,14 +272,18 @@ class MainMenuState extends MusicBeatState
 
 		if (Progression.beatMainWeek)
 			FlxTween.color(resetText, 1, FlxColor.WHITE, FlxColor.YELLOW, {type: PINGPONG});
+			
+		
 
 		changeItem();
 
-		#if android
-		addVirtualPad(UP_DOWN, A_B);
-                #end
-		
-			super.create();
+                #if android
+        addVirtualPad(UP_DOWN, A_B);
+        #end
+
+		super.create();
+
+                
 	}
 
 	var selectedSomethin:Bool = false;
@@ -313,10 +320,6 @@ class MainMenuState extends MusicBeatState
 				if (optionShit[curSelected] == 'discord')
 				{
 					CoolUtil.browserLoad('https://discord.gg/KYGJvPkN8C');
-				}
-				else if (!Progression.beatMainWeek && optionShit[curSelected] == 'freeplay')
-				{
-					FlxG.sound.play(Paths.sound('lockedSound'));
 				}
 				else
 				{
