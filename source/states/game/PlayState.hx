@@ -3,10 +3,7 @@ package states.game;
 import data.*;
 import data.ClientPrefs;
 import data.Highscore;
-#if android
 
-import android.flixel.FlxVirtualPad;
-#end
 import data.Section.SwagSection;
 import data.Song.SwagSong;
 import data.StageData;
