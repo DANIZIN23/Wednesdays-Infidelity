@@ -53,7 +53,7 @@ class UnfinishedState extends MusicBeatState
 	override function create()
 	{
 		#if android
-		addVirtualPad(UP_DOWN, A_B);
+		addVirtualPad(NONE, A);
                 #end
 		
 			super.create();
@@ -93,7 +93,9 @@ class UnfinishedState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (canPress && (FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.ENTER))
+		if (canPress && (FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.ENTER|| controls.ACCEPT))
+
+		))
 		{
 			canPress = false;
 
