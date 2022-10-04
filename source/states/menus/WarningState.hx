@@ -49,7 +49,11 @@ class WarningState extends MusicBeatState
 
 	override function create()
 	{
-		super.create();
+		#if android
+		addVirtualPad(UP_DOWN, A_B);
+		#end	
+		
+			super.create();
 
 		if (ClientPrefs.doNotShowWarnings)
 		{
@@ -320,7 +324,7 @@ class WarningState extends MusicBeatState
 			if (controls.UI_DOWN_P)
 				changeSelection(1);
 
-			if (FlxG.keys.justPressed.ENTER)
+			if (FlxG.keys.justPressed.ENTER|| controls.ACCEPT)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				curOption.setValue((curOption.getValue() == true) ? false : true);
@@ -328,7 +332,7 @@ class WarningState extends MusicBeatState
 				reloadCheckboxes();
 			}
 
-			if (FlxG.keys.justPressed.SPACE && canPressSpace)
+			if (FlxG.keys.justPressed.SPACE || controls.BACK)  && canPressSpace)
 			{
 				canMove = false;
 
