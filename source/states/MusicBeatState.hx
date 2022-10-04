@@ -19,9 +19,9 @@ import song.Conductor.BPMChangeEvent;
 import song.Conductor;
 import util.CoolUtil;
 import util.CustomFadeTransition;
-#if android
+#if android 
 import android.AndroidControls;
-import android.flixel.FlxVirtualPad;
+import ui.FlxVirtualPad;
 import flixel.FlxCamera;
 import flixel.input.actions.FlxActionInput;
 import flixel.util.FlxDestroyUtil;
