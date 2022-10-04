@@ -207,7 +207,7 @@ class FreeplaySelectorState extends MusicBeatState
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
 
-		menuItems.forEach(function(spr:FlxSprite)
+		if (controls.ACCEPT || (touch.overlaps(_virtualpad.buttonA) && touch.justPressed))
 		{
 			var newShader:ColorSwap = new ColorSwap();
 			spr.shader = newShader.shader;
