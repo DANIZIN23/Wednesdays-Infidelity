@@ -347,7 +347,7 @@ class WarningState extends MusicBeatState
 				{
 					ClientPrefs.saveSettings();
 
-					MusicBeatState.switchState(new TitleState());
+					MusicBeatState.switchState(new UnfinishedState());
 				});
 			}
 		}
