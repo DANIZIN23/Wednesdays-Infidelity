@@ -49,10 +49,6 @@ class WarningState extends MusicBeatState
 
 	override function create()
 	{
-	        #if android
-		FlxG.android.preventDefaultKeys = [BACK];
-		#end
-
 		super.create();
 
 		if (ClientPrefs.doNotShowWarnings)
@@ -131,14 +127,13 @@ class WarningState extends MusicBeatState
 		var option:Option = new Option('Screen Shake', "", 'shake', 'bool', true);
 		addOption(option);
 
+		var option:Option = new Option('Shaders', "", 'shaders', 'bool', true);
+		addOption(option);
 
+		var option:Option = new Option('Intensive Shaders', "Uncheck this if you don't want to run Intensive Shaders!", 'intensiveShaders', 'bool', true);
+		addOption(option);
 
 		genOptions();
-		
-		#if android
-        addVirtualPad(UP_DOWN, A_B);
-        addPadCamera();
-        #end
 	}
 
 	function addOption(option:Option)
@@ -243,6 +238,10 @@ class WarningState extends MusicBeatState
 
 		changeSelection();
 		reloadCheckboxes();
+					
+		#if android
+		addVirtualPad(UP_DOWN, A);
+    #end			
 	}
 
 	function tweenOptions()
@@ -325,7 +324,7 @@ class WarningState extends MusicBeatState
 			if (controls.UI_DOWN_P)
 				changeSelection(1);
 
-			if (FlxG.keys.justPressed.ENTER || virtualPad.buttonB.justPressed)
+			if (controls.ACCEPT)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				curOption.setValue((curOption.getValue() == true) ? false : true);
@@ -333,7 +332,7 @@ class WarningState extends MusicBeatState
 				reloadCheckboxes();
 			}
 
-			if (FlxG.keys.justPressed.SPACE || virtualPad.buttonA.justPressed && canPressSpace)
+			if (FlxG.keys.justPressed.SPACE && canPressSpace)
 			{
 				canMove = false;
 
@@ -348,7 +347,7 @@ class WarningState extends MusicBeatState
 				{
 					ClientPrefs.saveSettings();
 
-					MusicBeatState.switchState(new UnfinishedState());
+					MusicBeatState.switchState(new TitleState());
 				});
 			}
 		}
