@@ -40,9 +40,7 @@ class OptionsState extends MusicBeatState
 		'Graphics',
 		'Visuals and UI',
 		'Gameplay',
-		'Accessibility', 
-		'Android Controls' 
-		
+		'Accessibility'
 	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 
@@ -65,8 +63,6 @@ class OptionsState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new NoteOffsetState());
 			case 'Accessibility':
 				openSubState(new AccessibilitySubState());
-			case 'Android Controls':
-				openSubState(new android.AndroidControlsSubState());
 		}
 		Lib.application.window.title = "Wednesday's Infidelity - Options - " + options[curSelected];
 	}
@@ -109,14 +105,14 @@ class OptionsState extends MusicBeatState
 
 		changeSelection();
 		ClientPrefs.saveSettings();
-		
-		#if android
-		addVirtualPad(UP_DOWN, A_B);
-		#end
 
 		super.create();
 
 		Lib.application.window.title = "Wednesday's Infidelity - Options";
+		
+		#if android
+                addVirtualPad(UP_DOWN, A_B_C);
+                #end
 	}
 
 	override function closeSubState()
@@ -148,6 +144,15 @@ class OptionsState extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
+		#if android
+		if (virtualPad.buttonC.justPressed) {
+			#if android
+			removeVirtualPad();
+			#end
+			MusicBeatState.switchState(new android.AndroidControlsSubState());
+		}
+		#end
+			
 		if (controls.ACCEPT)
 		{
 			openSelectedSubstate(options[curSelected]);
